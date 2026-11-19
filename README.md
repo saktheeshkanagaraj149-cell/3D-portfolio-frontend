@@ -1,96 +1,60 @@
-# Saktheesh Kanagaraj — Developer Portfolio
+# Saktheesh Kanagaraj — portfolio
 
-**Stack:** React + Vite | Three.js + R3F | GSAP | Framer Motion | Tailwind CSS | Node.js + Express | MongoDB
+Live: https://3-d-portfolio-frontend-wheat.vercel.app · Résumé: [/resume/](https://3-d-portfolio-frontend-wheat.vercel.app/resume/)
 
----
+React + Vite frontend with a small Three.js scene (two meshing gears), and an Express + MongoDB API that
+serves the project list and stores contact-form messages.
 
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+
-- MongoDB Atlas account (or local MongoDB)
-- Gmail account with App Password for Nodemailer
-
-### Frontend (Client)
-```bash
-cd client
-npm install --legacy-peer-deps
-npm run dev
-# → http://localhost:5173
+```
+client/                     React app (Vercel, root directory = client)
+  src/data/projects.json    ← the project list. Edit this to add/remove projects.
+  public/projects/          screenshots of the live sites
+  public/resume/            résumé page + PDF
+server/                     Express API (Render, root directory = server)
+  lib/syncProjects.js       copies projects.json into MongoDB (+ GitHub stars / last push)
+  routes/projects.js        GET /api/projects  (MongoDB, falls back to projects.json)
+  routes/contact.js         POST /api/contact  (saved to MongoDB, optional Gmail notification)
 ```
 
-### Backend (Server)
+## How the database is used
+
+- **projects** collection: on every start the server upserts everything in `client/src/data/projects.json`
+  (matched by `slug`), adds star count and last push date from the GitHub API, and removes projects that
+  were deleted from the file. So: edit the JSON, push, and Render redeploys and updates MongoDB.
+  Set `SYNC_ON_START=false` to manage the collection by hand instead.
+- **contacts** collection: every contact-form message.
+- If MongoDB is unreachable the site still works: the frontend ships with the same JSON and the API
+  falls back to it.
+
+## Run locally
+
 ```bash
+# API
 cd server
-# Copy env template and fill in values
-cp .env.example .env
+cp .env.example .env        # put your MongoDB Atlas URI in MONGO_URI
 npm install
-node index.js
-# → http://localhost:5000
+npm run dev                 # http://localhost:5000/api/health
+npm run seed                # optional: sync projects into MongoDB without starting the server
+
+# Frontend (second terminal)
+cd client
+npm install
+npm run dev                 # http://localhost:5173  (/api is proxied to :5000)
 ```
 
----
+## Deploy
 
-## ⚙️ Environment Variables
+| Part | Where | Settings |
+|---|---|---|
+| Frontend | Vercel | Root directory `client`. Env: `VITE_API_URL=https://<your-render-service>.onrender.com` |
+| API | Render | Root directory `server`, start `npm start`. Env: `MONGO_URI`, `CLIENT_URL`, optional `EMAIL_USER` / `EMAIL_PASS` / `EMAIL_TO`, `GITHUB_TOKEN` |
+| Database | MongoDB Atlas | Network access must allow Render (0.0.0.0/0 on the free tier) |
 
-Create `server/.env` based on `server/.env.example`:
+## Updating the résumé
 
-```env
-PORT=5000
-MONGO_URI=mongodb+srv://<user>:<pass>@cluster0.xxx.mongodb.net/portfolio
-EMAIL_USER=saktheeshkanagaraj149@gmail.com
-EMAIL_PASS=your_gmail_app_password
-EMAIL_TO=saktheeshkanagaraj149@gmail.com
-CLIENT_URL=http://localhost:5173
-NODE_ENV=development
+Edit `client/public/resume/index.html`, then regenerate the PDF (Windows, Edge):
+
+```bash
+"C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" --headless=new --no-pdf-header-footer \
+  --print-to-pdf="client/public/resume/Saktheesh_Kanagaraj_Resume.pdf" client/public/resume/index.html
 ```
-
-> **Gmail App Password:** Google Account → Security → 2-Step Verification → App Passwords → Generate
-
----
-
-## 📁 Structure
-
-```
-portfolio/
-├── client/           # React frontend (Vite)
-│   ├── public/
-│   │   ├── assets/   # Real user photos (profile.jpg, cisco-cert.jpg)
-│   │   └── images/   # AI-generated images
-│   └── src/
-│       ├── assets/generatedImages.js  # Central image constants
-│       ├── three/    # Three.js R3F scene components
-│       └── components/
-└── server/           # Node.js + Express backend
-    ├── models/       # Mongoose schemas
-    ├── routes/       # API routes
-    └── middleware/
-```
-
----
-
-## 🌐 Deployment
-
-| Layer    | Service     | Notes |
-|----------|-------------|-------|
-| Frontend | **Vercel**  | Import `client/` as root. Add `VITE_API_URL` env var |
-| Backend  | **Render**  | Set all env vars in Render dashboard |
-| Database | **MongoDB Atlas** | Whitelist `0.0.0.0/0` for Render IPs |
-
-### Vercel (frontend)
-1. Connect GitHub repo
-2. Set root directory to `client`
-3. Build command: `npm run build`
-4. Output directory: `dist`
-
-### Render (backend)
-1. New Web Service → connect repo
-2. Root directory: `server`
-3. Start command: `node index.js`
-4. Add all env vars from `.env.example`
-
----
-
-## 📞 Contact
-
-Built by **Saktheesh Kanagaraj** — [saktheeshkanagaraj149@gmail.com](mailto:saktheeshkanagaraj149@gmail.com)

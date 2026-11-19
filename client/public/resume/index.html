@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Saktheesh Kanagaraj — Résumé</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #fbf9f4; --page: #ebe5d9; --ink: #1c1b19; --ink-2: #3d3a35;
+    --muted: #6b665d; --rule: #d6cfc1; --accent: #c2410c;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 400 9pt/1.4 var(--sans); }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent); }
+
+  .bar { max-width: 210mm; margin: 0 auto; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; font: 500 13px var(--sans); }
+  .bar a.btn { background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 2px; }
+  .bar a.btn:hover { background: var(--accent); color: #fff; }
+
+  .sheet { width: 210mm; min-height: 297mm; margin: 0 auto 32px; background: var(--paper); padding: 11mm 13mm 10mm; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  @media screen and (max-width: 760px) {
+    .sheet { width: auto; min-height: 0; margin: 0 0 24px; padding: 24px 16px; }
+    .cols { grid-template-columns: 1fr !important; }
+    header { grid-template-columns: 1fr !important; }
+    header .contact { text-align: left !important; }
+  }
+
+  header { display: grid; grid-template-columns: 1fr auto; gap: 8mm; align-items: end; padding-bottom: 4mm; border-bottom: 1.5px solid var(--ink); }
+  h1 { font: 400 27pt/1 var(--serif); margin: 0 0 2.5mm; letter-spacing: -0.01em; }
+  h1 em { color: var(--accent); }
+  .role { font: 400 8.5pt var(--mono); color: var(--muted); letter-spacing: .03em; }
+  .contact { text-align: right; font: 400 8.3pt/1.65 var(--mono); color: var(--ink-2); }
+
+  .cols { display: grid; grid-template-columns: 1fr 58mm; gap: 9mm; margin-top: 5mm; }
+  h2 { font: 500 7.6pt var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 2.5mm; padding-bottom: 1.5mm; border-bottom: 1px solid var(--rule); }
+  section { margin-bottom: 4.2mm; }
+  section:last-child { margin-bottom: 0; }
+  p { margin: 0; }
+  .lede { color: var(--ink-2); font-size: 9.2pt; }
+
+  .item { margin-bottom: 2.6mm; break-inside: avoid; }
+  .item:last-child { margin-bottom: 0; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+  h3 { font: 600 10.2pt var(--serif); margin: 0; }
+  .when { font: 400 7.8pt var(--mono); color: var(--muted); white-space: nowrap; }
+  .org { font-size: 8.8pt; color: var(--muted); margin: .3mm 0 1mm; }
+  ul { margin: .5mm 0 0; padding-left: 3.6mm; }
+  li { margin-bottom: .5mm; color: var(--ink-2); }
+  li::marker { color: var(--accent); }
+  .stack { font: 400 7.6pt var(--mono); color: var(--muted); margin-top: .6mm; }
+  .link { font: 400 7.6pt var(--mono); color: var(--accent); }
+
+  .side h3 { font-size: 9.6pt; }
+  .side .item { margin-bottom: 3mm; }
+  .skill-group { margin-bottom: 2.6mm; }
+  .skill-group b { display: block; font: 500 7.6pt var(--mono); letter-spacing: .06em; text-transform: uppercase; margin-bottom: .6mm; }
+  .skill-group span { color: var(--ink-2); font-size: 8.9pt; }
+  .certs { list-style: none; padding: 0; margin: 0; }
+  .certs li { margin-bottom: 1.6mm; font-size: 8.8pt; }
+  .certs li small { display: block; color: var(--muted); font-size: 8pt; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: var(--paper); }
+    .bar { display: none; }
+    .sheet { margin: 0; box-shadow: none; width: 210mm; height: 297mm; overflow: hidden; }
+  }
+</style>
+</head>
+<body>
+<div class="bar">
+  <a href="/">← Back to portfolio</a>
+  <a class="btn" href="/resume/Saktheesh_Kanagaraj_Resume.pdf" download>Download PDF</a>
+</div>
+
+<main class="sheet">
+  <header>
+    <div>
+      <h1>Saktheesh <em>Kanagaraj</em></h1>
+      <div class="role">Full-stack developer · CS student</div>
+    </div>
+    <div class="contact">
+      <a href="mailto:saktheeshkanagaraj149@gmail.com">saktheeshkanagaraj149@gmail.com</a><br />
+      <a href="tel:+916374401495">+91 63744 01495</a><br />
+      <a href="https://linkedin.com/in/saktheesh-kanagaraj-9539a0379">linkedin.com/in/saktheesh-kanagaraj-9539a0379</a><br />
+      <a href="https://github.com/saktheeshkanagaraj149-cell">github.com/saktheeshkanagaraj149-cell</a><br />
+      <a href="https://3-d-portfolio-frontend-wheat.vercel.app">3-d-portfolio-frontend-wheat.vercel.app</a><br />
+      Sivakasi, Tamil Nadu
+    </div>
+  </header>
+
+  <div class="cols">
+    <div>
+      <section>
+        <h2>Profile</h2>
+        <p class="lede">Second-year Computer Science student (lateral entry) who spent four years as an automobile
+        technician before moving to software. I build full-stack apps with React, Node and MongoDB and machine
+        learning projects in Python. I founded AptIQ, a free aptitude prep platform built with students from
+        colleges in Tamil Nadu and Karnataka. Looking for an internship or junior developer role.</p>
+      </section>
+
+      <section>
+        <h2>Experience</h2>
+        <div class="item">
+          <div class="row"><h3>Founder &amp; Lead Developer — AptIQ</h3><span class="when">2026 – present</span></div>
+          <div class="org">Free aptitude learning and testing platform · <a class="link" href="https://full-stack-aptitude-learning-testin.vercel.app">live site ↗</a></div>
+          <ul>
+            <li>Built the platform (React frontend, Node/Express + MongoDB API): courses by topic, timed tests with tab-switch detection, leaderboard and per-section accuracy charts.</li>
+            <li>Lead a multi-college student team split into frontend, backend and design; set up an n8n pipeline that posts to AptIQ's Instagram.</li>
+          </ul>
+        </div>
+        <div class="item">
+          <div class="row"><h3>Automobile Technician</h3><span class="when">2021 – 2024</span></div>
+          <div class="org">VTK Automobile, Chennai · JBM Automobile, Chennai (welding) · Mahindra Automotive Service</div>
+          <ul>
+            <li>Diagnosed and fixed faults across the Mahindra vehicle range.</li>
+            <li>Managed service workflow and quality checks in a high-volume workshop.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Projects</h2>
+        <div class="item">
+          <div class="row"><h3>Skillora</h3><a class="link" href="https://github.com/saktheeshkanagaraj149-cell/Skillora">github ↗</a></div>
+          <p>Free learning paths for any skill. Gemini drafts courses, admins curate them; learners get YouTube lessons, quizzes, a final exam and a verifiable certificate. Access control through Cerbos policies.</p>
+          <div class="stack">React · Express · MongoDB Atlas · Cerbos · Gemini API · Docker</div>
+        </div>
+        <div class="item">
+          <div class="row"><h3>MediDiagnose</h3><a class="link" href="https://github.com/saktheeshkanagaraj149-cell/MEDIDIAGNOSE">github ↗</a></div>
+          <p>Multi-label model that predicts the risk of 12 diseases at once. Compares logistic regression, random forest and XGBoost; explains each prediction with SHAP and LIME in a Flask dashboard.</p>
+          <div class="stack">Python · scikit-learn · XGBoost · SHAP · Flask</div>
+        </div>
+        <div class="item">
+          <div class="row"><h3>TenderAI India</h3><a class="link" href="https://github.com/saktheeshkanagaraj149-cell/TenderAI-India">github ↗</a></div>
+          <p>Upload a government tender PDF and get an eligibility, technical and financial score, a 170-item compliance matrix and a draft bid. JWT auth with vendor and admin roles.</p>
+          <div class="stack">React · Express · MongoDB · JWT · Multer</div>
+        </div>
+        <div class="item">
+          <div class="row"><h3>AI Bot Coder</h3><a class="link" href="https://github.com/saktheeshkanagaraj149-cell/ai-bot">github ↗</a></div>
+          <p>Offline coding assistant that runs from a USB drive with no install. Qwen2.5-3B fine-tuned with QLoRA, served on the CPU by llama.cpp.</p>
+          <div class="stack">llama.cpp · Qwen2.5 · QLoRA · JavaScript</div>
+        </div>
+        <div class="item">
+          <div class="row"><h3>Hospital Shortage Early Warning</h3><a class="link" href="https://github.com/saktheeshkanagaraj149-cell/HealthCare">github ↗</a></div>
+          <p>Datathon model that predicts a hospital's resource-shortage risk at admission time from 200,000 records, with SHAP explanations.</p>
+          <div class="stack">Python · XGBoost · SHAP · pandas</div>
+        </div>
+        <div class="item">
+          <div class="row"><h3>Also live</h3></div>
+          <p>CS Odyssey (3D motherboard, Three.js) · NavaDhiti AI code review (Gemini) · RYVONEXA '26 event registration · client sites for Sudarsanam Driving School and Sri Balaji Agency. Links on the portfolio.</p>
+        </div>
+      </section>
+    </div>
+
+    <aside class="side">
+      <section>
+        <h2>Education</h2>
+        <div class="item">
+          <h3>B.E. Computer Science</h3>
+          <div class="org">PSR Engineering College, Sivakasi<br />Lateral entry · 2nd year</div>
+        </div>
+        <div class="item">
+          <h3>Diploma, Mechanical Engineering</h3>
+          <div class="org">PSR Polytechnic College, Sevalpatti<br />2018 – 2021</div>
+        </div>
+        <div class="item">
+          <h3>Higher Secondary, Pure Science</h3>
+          <div class="org">AVM Mari Muthu Nadar HSS<br />2017 – 2018</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Skills</h2>
+        <div class="skill-group"><b>Frontend</b><span>React, Vite, Next.js, Three.js, HTML, CSS, Tailwind</span></div>
+        <div class="skill-group"><b>Backend</b><span>Node.js, Express, MongoDB, MySQL, Supabase / Postgres, JWT, REST APIs</span></div>
+        <div class="skill-group"><b>AI / ML</b><span>Python, pandas, scikit-learn, XGBoost, SHAP, Gemini API, Claude API, Hugging Face, llama.cpp, QLoRA</span></div>
+        <div class="skill-group"><b>Programming</b><span>JavaScript, Python, Java, C++</span></div>
+        <div class="skill-group"><b>Tools</b><span>Git, GitHub, Docker, Vercel, Render, n8n, VS Code, NetBeans</span></div>
+      </section>
+
+      <section>
+        <h2>Certifications</h2>
+        <ul class="certs">
+          <li>Introduction to Cybersecurity<small>Cisco Networking Academy</small></li>
+          <li>Building Your First AI Chatbot (100%)<small>AMD Developer Cloud</small></li>
+          <li>Claude Code in Action<small>Anthropic</small></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Languages</h2>
+        <p>Tamil (native), English</p>
+      </section>
+    </aside>
+  </div>
+</main>
+</body>
+</html>
