@@ -1,60 +1,70 @@
 const express = require('express');
-const router = express.Router();
+const mongoose = require('mongoose');
+const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
 const Contact = require('../models/Contact');
 
+const router = express.Router();
+
+// 5 messages per IP per hour is plenty for a real person.
+const limiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    limit: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, message: 'Too many messages. Please try again in an hour.' },
+});
+
+const escapeHtml = s =>
+    String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+const mailer =
+    process.env.EMAIL_USER && process.env.EMAIL_PASS
+        ? nodemailer.createTransport({
+              service: 'gmail',
+              auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+          })
+        : null;
+
 // POST /api/contact
 router.post(
     '/',
+    limiter,
     [
-        body('name').trim().notEmpty().withMessage('Name is required').isLength({ max: 100 }),
-        body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
-        body('message').trim().notEmpty().withMessage('Message is required').isLength({ max: 2000 }),
+        body('name').isString().trim().notEmpty().withMessage('Name is required').isLength({ max: 100 }),
+        body('email').isString().trim().isEmail().withMessage('A valid email is required').normalizeEmail(),
+        body('message').isString().trim().notEmpty().withMessage('Message is required').isLength({ max: 2000 }),
     ],
     async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ success: false, errors: errors.array() });
+            return res.status(400).json({ success: false, message: errors.array()[0].msg });
+        }
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ success: false, message: 'The server is waking up. Please email me directly.' });
         }
 
         const { name, email, message } = req.body;
-
         try {
-            // Save to MongoDB
             const contact = await Contact.create({ name, email, message });
 
-            // Send email via Nodemailer
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS,
-                },
-            });
+            // The message is already saved, so a mail failure shouldn't fail the request.
+            if (mailer) {
+                mailer
+                    .sendMail({
+                        from: `"Portfolio" <${process.env.EMAIL_USER}>`,
+                        to: process.env.EMAIL_TO || process.env.EMAIL_USER,
+                        replyTo: email,
+                        subject: `Portfolio message from ${name.slice(0, 60)}`,
+                        text: `${name} <${email}>\n\n${message}`,
+                        html: `<p><b>${escapeHtml(name)}</b> &lt;${escapeHtml(email)}&gt;</p>
+<p style="white-space:pre-wrap">${escapeHtml(message)}</p>`,
+                    })
+                    .catch(err => console.error('Mail failed:', err.message));
+            }
 
-            await transporter.sendMail({
-                from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-                to: process.env.EMAIL_TO || process.env.EMAIL_USER,
-                replyTo: email,
-                subject: `New Portfolio Message from ${name}`,
-                html: `
-          <div style="font-family: Inter, sans-serif; max-width: 600px; margin: auto; padding: 24px; background: #12121a; color: #e2e8f0; border-radius: 12px;">
-            <h2 style="color: #6c63ff;">New Message from Portfolio</h2>
-            <p><strong style="color:#00f5d4;">Name:</strong> ${name}</p>
-            <p><strong style="color:#00f5d4;">Email:</strong> ${email}</p>
-            <p><strong style="color:#00f5d4;">Message:</strong></p>
-            <p style="background:#0a0a0f; padding:16px; border-radius:8px; border-left:3px solid #6c63ff;">${message}</p>
-            <p style="font-size:12px; color:#64748b; margin-top:24px;">Sent from portfolio contact form • ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
-          </div>
-        `,
-            });
-
-            res.status(201).json({
-                success: true,
-                message: 'Message received! I will get back to you soon.',
-                data: { id: contact._id },
-            });
+            res.status(201).json({ success: true, message: 'Thanks, I got your message.', data: { id: contact._id } });
         } catch (err) {
             next(err);
         }
