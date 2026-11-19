@@ -4,7 +4,7 @@ const TIMELINE = [
     ['2021 – 2022', 'Automobile Technician', 'VTK Automobile, Chennai'],
     ['2022 – 2024', 'Welding Technician', 'JBM Automobile, Chennai'],
     ['2024', 'Service Technician', 'Mahindra Automotive Service'],
-    ['Now', 'B.E. Computer Science, 2nd year (lateral entry)', 'PSR Engineering College, Sivakasi'],
+    ['Now', 'B.E. Computer Science, 3rd year (lateral entry)', 'PSR Engineering College, Sivakasi'],
 ];
 
 export default function About() {
@@ -23,7 +23,7 @@ export default function About() {
                         a fix you can't explain. Four years of that turned out to be good training for debugging.
                     </p>
                     <p>
-                        Then I joined Computer Science through lateral entry; I'm now in my second year. I learn by building: a tender
+                        Then I joined Computer Science through lateral entry; I'm now in my third (pre-final) year. I learn by building: a tender
                         analyser for a course project, an ML model for a datathon, websites for shops in
                         Sivakasi, and Skillora, a free learning platform I'm still working on.
                     </p>
