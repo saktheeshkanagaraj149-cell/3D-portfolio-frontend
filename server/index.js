@@ -14,14 +14,20 @@ const allowed = (process.env.CLIENT_URL || 'http://localhost:5173')
     .map(s => s.trim())
     .filter(Boolean);
 
+function isAllowedOrigin(origin) {
+    if (!origin || allowed.includes(origin)) return true;
+    try {
+        return /\.vercel\.app$/.test(new URL(origin).hostname);
+    } catch {
+        return false; // e.g. "Origin: null" from sandboxed pages
+    }
+}
+
 app.set('trust proxy', 1); // Render sits behind a proxy; needed for rate limiting by IP
 app.use(
     cors({
         origin(origin, cb) {
-            if (!origin || allowed.includes(origin) || /\.vercel\.app$/.test(new URL(origin).hostname)) {
-                return cb(null, true);
-            }
-            cb(null, false);
+            cb(null, isAllowedOrigin(origin));
         },
         methods: ['GET', 'POST', 'OPTIONS'],
     })

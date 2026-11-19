@@ -11,6 +11,8 @@ export function useProjects() {
 
     useEffect(() => {
         const ctrl = new AbortController();
+        // This request also wakes the sleeping Render instance, so it's ready
+        // by the time someone reaches the contact form.
         fetch(`${API}/api/projects`, { signal: ctrl.signal })
             .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
             .then(json => {

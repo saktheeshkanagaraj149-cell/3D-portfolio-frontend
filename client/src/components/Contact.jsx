@@ -13,17 +13,24 @@ export default function Contact() {
         e.preventDefault();
         setState({ status: 'sending', text: 'Sending…' });
         try {
+            // The free Render instance sleeps when idle and can take ~1 minute to wake up.
+            const slow = setTimeout(
+                () => setState({ status: 'sending', text: 'The server is waking up, this can take a minute…' }),
+                5000
+            );
             const res = await fetch(`${API_URL}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form),
-            });
+                signal: AbortSignal.timeout(90000),
+            }).finally(() => clearTimeout(slow));
             const json = await res.json().catch(() => ({}));
             if (!res.ok || !json.success) throw new Error(json.message || 'Something went wrong.');
             setForm({ name: '', email: '', message: '' });
             setState({ status: 'ok', text: json.message });
         } catch (err) {
-            const msg = err instanceof TypeError ? "Couldn't reach the server." : err.message;
+            const offline = err instanceof TypeError || err.name === 'TimeoutError' || err.name === 'AbortError';
+            const msg = offline ? "Couldn't reach the server." : err.message;
             setState({ status: 'err', text: `${msg} You can also email me at ${EMAIL}.` });
         }
     }
